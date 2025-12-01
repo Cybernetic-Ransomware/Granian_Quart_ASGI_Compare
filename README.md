@@ -10,7 +10,7 @@ Requirements
 ## Quick start
 1. Clone the repository:
     ```powershell
-    git clone https://github.com/Cybernetic-Ransomware/AI_Agent_for_Creative_Asset_Validation.git
+    git clone https://github.com/Cybernetic-Ransomware/Granian_Quart_ASGI_Compare.git
     ```
    
 2. Set up the `.env` file based on the provided template.
