@@ -1,16 +1,33 @@
 import asyncio
 import time
 
-from quart import Quart
+from dataclasses import dataclass
 
+from quart import Quart
+from quart_schema import QuartSchema, validate_response
 
 app = Quart(__name__)
 
-@app.route("/hello")
-async def hello():
+QuartSchema(app)
+
+@dataclass
+class PerformanceResponse:
+    message: str
+    response_time: float
+
+
+@app.route("/hello", methods=["GET"])
+async def hello() -> PerformanceResponse:
     start = time.time()
     await asyncio.sleep(0.05)
-    return {"message": "Hello!", "response_time": time.time() - start}
+    duration = time.time() - start
+
+    response = PerformanceResponse(
+        message="Hello!",
+        response_time=duration
+    )
+
+    return response
 
 
 if __name__ == "__main__":

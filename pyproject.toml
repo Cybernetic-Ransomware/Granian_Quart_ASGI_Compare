@@ -7,6 +7,7 @@ dependencies = [
     "granian>=2.6.0",
     "hypercorn>=0.18.0",
     "quart>=0.20.0",
+    "quart-schema[pydantic]>=0.22.0",
 ]
 
 [dependency-groups]
