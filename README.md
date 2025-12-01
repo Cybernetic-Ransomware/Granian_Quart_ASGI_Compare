@@ -37,3 +37,14 @@ Requirements
    uv run pytest
    ```
    The suite includes a load-test scenario that can be enabled by setting `RUN_LOAD_TESTS=1` inside `.env`.
+
+
+## Local run and Swagger UI documentation:
+1. 
+    ```powershell
+    uv run granian --interface asgi --workers 2 --host 0.0.0.0 --port 8000 src.app.main:app
+    ```
+2. 
+    ```http request
+    http://0.0.0.0:8000/docs
+    ```
