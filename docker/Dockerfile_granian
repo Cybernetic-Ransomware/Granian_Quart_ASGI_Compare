@@ -1,0 +1,19 @@
+FROM python:3.11-slim
+
+LABEL authors="aleksander.marszalki"
+LABEL name="ASGI server Granian"
+
+WORKDIR /app
+
+RUN apt-get update && apt-get install -y curl && rm -rf /var/lib/apt/lists/*
+
+RUN python -m pip install --upgrade pip --break-system-packages && \
+    pip install uv --break-system-packages
+
+COPY ./pyproject.toml ./uv.lock ./
+RUN uv sync
+
+COPY ./src/app/ .
+
+ENV PATH="/app/.venv/bin:${PATH}"
+CMD ["granian", "--interface", "asgi", "--workers", "2", "--host", "0.0.0.0", "--port", "8000", "main:app"]

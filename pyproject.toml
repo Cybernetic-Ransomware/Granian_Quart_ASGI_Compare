@@ -1,0 +1,22 @@
+[project]
+name = "granianquart"
+version = "0.1.0"
+description = "Add your description here"
+requires-python = ">=3.13"
+dependencies = [
+    "granian>=2.6.0",
+    "hypercorn>=0.18.0",
+    "quart>=0.20.0",
+]
+
+[dependency-groups]
+dev = [
+    "httpx>=0.26.0",
+    "pytest>=9.0.1",
+    "pytest-asyncio>=0.23.0",
+    "python-decouple>=3.8",
+]
+
+[tool.pytest]
+pythonpath = ["./src"]
+

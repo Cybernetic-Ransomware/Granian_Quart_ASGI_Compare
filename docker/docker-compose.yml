@@ -1,0 +1,52 @@
+name: HTTP servers compare
+services:
+  granian_app:
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile_granian
+    container_name: quart_app
+    env_file:
+      - ../.env
+    command: >
+      sh -c "granian --interface asgi --workers $${ASGI_WORKERS:-2}
+      --host 0.0.0.0 --port 8000 main:app"
+    expose:
+      - "8000"
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:8000/hello"]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  hypercorn_app:
+    build:
+      context: ../
+      dockerfile: ./docker/Dockerfile_hypercorn
+    container_name: hypercorn_app
+    env_file:
+      - ../.env
+    command: >
+      sh -c "hypercorn main:app --bind 0.0.0.0:8001
+      --workers $${ASGI_WORKERS:-2}"
+    expose:
+      - "8001"
+    healthcheck:
+      test: [ "CMD", "curl", "-f", "http://localhost:8001/hello" ]
+      interval: 10s
+      timeout: 5s
+      retries: 3
+      start_period: 10s
+
+  nginx:
+    image: nginx:latest
+    container_name: nginx_proxy
+    ports:
+      - "8080:80"
+    volumes:
+      - ../src/nginx/nginx.conf:/etc/nginx/nginx.conf:ro
+    depends_on:
+      granian_app:
+        condition: service_healthy
+      hypercorn_app:
+        condition: service_healthy
