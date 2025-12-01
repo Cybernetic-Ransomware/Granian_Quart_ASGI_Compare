@@ -18,6 +18,7 @@ Requirements
 3. Build and start the containers:
    ```powershell
    docker compose -f docker/docker-compose.yml up -d --build
+   docker compose -f docker/docker-compose.yml restart nginx  # if you changed amount of workers 
    ```
    This launches the Granian app, the Hypercorn app, and the nginx proxy that exposes comparison endpoints on `http://localhost:8080`.
  
